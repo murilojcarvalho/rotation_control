@@ -4,7 +4,6 @@
 //Global variables
 unsigned int rpm = 0;
 unsigned long int previous_rpm_millis=0, current_rpm_millis=0;
-unsigned long int test_millis=0;
 char string_buffer[100] = {0};
 
 //Functions prototypes
@@ -16,10 +15,12 @@ int main(void){
 	init();
 	
     while ( TRUE ) {
-		Pwm1ASetDuty(10);
-		test_millis = millis();
-		if(test_millis%1000 == 0){
-			sprintf(string_buffer, "%lu \r\n", test_millis/1000);
+		//Pwm1ASetDuty(10);
+		set_duty_PWM(50);
+		current_rpm_millis = millis();
+		if(current_rpm_millis - previous_rpm_millis >= serial_publish_interval){
+			previous_rpm_millis = current_rpm_millis;
+			sprintf(string_buffer, "%u \r\n", rpm);
 			USART_StrTx(string_buffer);
 		}
     }
@@ -29,13 +30,13 @@ int main(void){
 
 //INT0 Interrupt
 ISR (INT0_vect){
-	ATOMIC_BLOCK(ATOMIC_FORCEON){
+	//ATOMIC_BLOCK(ATOMIC_FORCEON){
 		//current_rpm_millis = millis();
 		//rpm = 60/(current_rpm_millis - previous_rpm_millis)*7;
 		rpm++;
 		//sprintf(string_buffer, "%u \r\n", rpm);
 		//USART_StrTx(string_buffer);
-	}
+	//}
 }
 
 void init(void){
@@ -46,7 +47,7 @@ void init(void){
 	
 	USART_Init();	//Start USART
 	
-	Pwm1AInit();	//Enable PWM
+	//Pwm1AInit();	//Enable PWM
 	
 	//Interrupt Config
 	EICRA |= 0b00000011;    //The rising edge of INT0 generates an interrupt request (ISC00, ISC01)

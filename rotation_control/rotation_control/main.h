@@ -11,6 +11,7 @@
 
 #define F_CPU 16000000UL		//used with delay function
 #define TRUE  1
+#define serial_publish_interval	100
 
 #include "defs.h"
 #include <avr/io.h>		//ATMEGA328P registers
