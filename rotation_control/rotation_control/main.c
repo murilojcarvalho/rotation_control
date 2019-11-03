@@ -2,20 +2,26 @@
 #include "main.h"
 
 //Global variables
-unsigned long int count = 0;
-char string_buffer[50] = {0};
+unsigned int rpm = 0;
+unsigned long int previous_rpm_millis=0, current_rpm_millis=0;
+unsigned long int test_millis=0;
+char string_buffer[100] = {0};
 
 //Functions prototypes
 void init(void);
+void proporcional_control(void);
 
 
 int main(void){
 	init();
 	
     while ( TRUE ) {
-		
-		Pwm1ASetDuty(50);
-		
+		Pwm1ASetDuty(10);
+		test_millis = millis();
+		if(test_millis%1000 == 0){
+			sprintf(string_buffer, "%lu \r\n", test_millis/1000);
+			USART_StrTx(string_buffer);
+		}
     }
 	
 	return 0;
@@ -23,9 +29,13 @@ int main(void){
 
 //INT0 Interrupt
 ISR (INT0_vect){
-	count++;
-	sprintf(string_buffer, "%lu \r\n", count);
-	USART_StrTx(string_buffer);
+	ATOMIC_BLOCK(ATOMIC_FORCEON){
+		//current_rpm_millis = millis();
+		//rpm = 60/(current_rpm_millis - previous_rpm_millis)*7;
+		rpm++;
+		//sprintf(string_buffer, "%u \r\n", rpm);
+		//USART_StrTx(string_buffer);
+	}
 }
 
 void init(void){
@@ -36,7 +46,7 @@ void init(void){
 	
 	USART_Init();	//Start USART
 	
-	Pwm1AInit();	//Enable PWM1
+	Pwm1AInit();	//Enable PWM
 	
 	//Interrupt Config
 	EICRA |= 0b00000011;    //The rising edge of INT0 generates an interrupt request (ISC00, ISC01)
@@ -45,4 +55,8 @@ void init(void){
 	sei();          // turn on interrupts
 	
 	USART_StrTx("WELCOME\r\n");
+}
+
+void proporcional_control(void){
+	
 }

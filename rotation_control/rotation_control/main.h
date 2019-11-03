@@ -21,6 +21,4 @@
 #include "ticks.h"
 #include "pwm.h"
 
-
-
 #endif /* MAIN_H_ */

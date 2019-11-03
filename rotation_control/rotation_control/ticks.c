@@ -4,8 +4,8 @@ volatile unsigned long int tick_1ms = 0;
 
 /***************************************************************************************************************************************************************
 *	void tick_init(void)
-*	Initiates TIMER1 to generate a 1ms tick
-*	Prerequisite:	F_CPU defined in global.h
+*	Initiates TIMER0 to generate a 1ms tick
+*	Prerequisite:	F_CPU defined in main.h
 *
 *	Arguments:		Range:				Description:
 *	void			N/A					N/A
@@ -14,11 +14,10 @@ volatile unsigned long int tick_1ms = 0;
 ****************************************************************************************************************************************************************/
 void ticks_init( void )
 {
-	TCCR1B |= (1 << WGM12);			// Set timer1 in CTC-mode with OCR1A as compare register
-	TIMSK1 |= (1 << OCIE1A);		// Enable CTC Output Compare 1A interrupt
-
-	OCR1A = F_CPU/1000;				// timer1-value that corresponds to 1 ms
-	TCCR1B |= (1 << CS10);			// Set timer1 clock source to F_CPU with no prescaling	
+	TCCR0A |= (1 << WGM01);				// Set the Timer0 Mode to CTC
+	OCR0A = ((F_CPU*0.001)/64)-1;		// OCRn =  [ (clock_speed / Prescaler_value) * Desired_time_in_Seconds ] - 1 =  [ (16000000 / 64) * 1ms ] - 1 = 249
+	TIMSK0 |= (1 << OCIE0A);			//Set the ISR COMPA vect
+	TCCR0B |= (1 << CS01)|(1 << CS00);	// set prescaler to 8 and start the timer
 }
 
 /***************************************************************************************************************************************************************
@@ -49,8 +48,9 @@ unsigned long int millis(void)
 *	Increment ms_Counter at a rate of 1 ms
 *
 ******************************************************************************************************************************************************************/
-ISR( TIMER1_COMPA_vect )
+ISR( TIMER0_COMPA_vect )
 {
-	tick_1ms++;
+		tick_1ms++;
 }
+
 

@@ -10,8 +10,7 @@
 #define TICKS_H_
 
 /* Código de referência: 
-	- https://www.avrfreaks.net/forum/timer-tick-function-and-overflow-arithmetic 
-	- Modificado por Fernando Simplicio;
+	- https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
 	- Edited by Murilo Jose de Carvalho
 */
 
