@@ -4,5 +4,7 @@
 
 main.c
 
+ticks.c
+
 usart.c
 

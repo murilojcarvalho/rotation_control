@@ -108,7 +108,16 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="defs.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ticks.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ticks.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usart.c">
