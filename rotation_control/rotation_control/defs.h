@@ -1,9 +1,6 @@
 #ifndef _IO_MACRO_H__
 #define _IO_MACRO_H__
 
-#define F_CPU 16000000UL		//used with delay function
-#define TRUE  1
-
 typedef struct
 {
 	unsigned bit0:1;

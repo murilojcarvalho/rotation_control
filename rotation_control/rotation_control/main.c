@@ -1,12 +1,5 @@
 //Libraries
-#include "defs.h"
-#include <avr/io.h>		//ATMEGA328P registers
-#include <util/delay.h>
-#include <avr/interrupt.h>
-#include <stdio.h>
-#include "usart.h"
-#include "ticks.h"
-#include "pwm.h"
+#include "main.h"
 
 //Global variables
 unsigned long int count = 0;
@@ -21,7 +14,7 @@ int main(void){
 	
     while ( TRUE ) {
 		
-		Pwm1ASetDuty(10);
+		Pwm1ASetDuty(50);
 		
     }
 	

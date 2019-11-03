@@ -660,13 +660,13 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xb0b
+.debug_info     0x00000000      0xb13
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_info    0x000005f4      0x1c5 main.o
- .debug_info    0x000007b9       0xbf pwm.o
- .debug_info    0x00000878      0x173 ticks.o
- .debug_info    0x000009eb      0x120 usart.o
+ .debug_info    0x000005f4      0x1c6 main.o
+ .debug_info    0x000007ba       0xbf pwm.o
+ .debug_info    0x00000879      0x17a ticks.o
+ .debug_info    0x000009f3      0x120 usart.o
 
 .debug_abbrev   0x00000000      0x913
  *(.debug_abbrev)
@@ -699,7 +699,7 @@ END GROUP
  .debug_str     0x000003a9       0x27 pwm.o
                                 0x19e (size before relaxing)
  .debug_str     0x000003d0       0x61 ticks.o
-                                0x1d0 (size before relaxing)
+                                0x1d5 (size before relaxing)
  .debug_str     0x00000431       0x3a usart.o
                                 0x1b1 (size before relaxing)
 

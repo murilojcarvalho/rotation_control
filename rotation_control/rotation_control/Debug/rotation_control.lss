@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000000c8  00000000  00000000  00000ccc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000b0b  00000000  00000000  00000d94  2**0
+  6 .debug_info   00000b13  00000000  00000000  00000d94  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000913  00000000  00000000  0000189f  2**0
+  7 .debug_abbrev 00000913  00000000  00000000  000018a7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005e3  00000000  00000000  000021b2  2**0
+  8 .debug_line   000005e3  00000000  00000000  000021ba  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001b0  00000000  00000000  00002798  2**2
+  9 .debug_frame  000001b0  00000000  00000000  000027a0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000046b  00000000  00000000  00002948  2**0
+ 10 .debug_str    0000046b  00000000  00000000  00002950  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002a6  00000000  00000000  00002db3  2**0
+ 11 .debug_loc    000002a6  00000000  00000000  00002dbb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00003059  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  00003061  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -228,8 +228,8 @@ int main(void){
 	
     while ( TRUE ) {
 		
-		Pwm1ASetDuty(10);
- 170:	8a e0       	ldi	r24, 0x0A	; 10
+		Pwm1ASetDuty(50);
+ 170:	82 e3       	ldi	r24, 0x32	; 50
  172:	90 e0       	ldi	r25, 0x00	; 0
  174:	0e 94 c8 00 	call	0x190	; 0x190 <Pwm1ASetDuty>
  178:	fb cf       	rjmp	.-10     	; 0x170 <main+0x4>

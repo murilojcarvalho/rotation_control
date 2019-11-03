@@ -15,6 +15,10 @@
 	- Edited by Murilo Jose de Carvalho
 */
 
+#include <util/atomic.h>
+#include <avr/io.h>		//ATMEGA328P registers
+#include "main.h"
+
 void ticks_init( void );
 unsigned long int millis(void);
 

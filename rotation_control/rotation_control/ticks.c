@@ -1,7 +1,4 @@
-#include <avr/io.h>		//ATMEGA328P registers
-#include "defs.h"
 #include "ticks.h"
-#include <util/atomic.h>
 
 volatile unsigned long int tick_1ms = 0;
 
