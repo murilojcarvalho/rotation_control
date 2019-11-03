@@ -4,8 +4,6 @@
 
 main.c
 
-pwm.c
-
 ticks.c
 
 usart.c
