@@ -5,19 +5,41 @@
 //Libraries
 #include <avr/io.h>		//ATMEGA328P registers
 #include <util/delay.h>
+#include <avr/interrupt.h>
+#include <stdio.h>
+#include "usart.h"
 
+//Global variables
+unsigned long int count = 0;
+char string_buffer[50] = {0};
+
+ISR (INT0_vect)
+{
+	count++;
+	sprintf(string_buffer, "%d\r\n", count);
+	USART_StrTx(string_buffer);
+}
 
 int main(void){
 	//Port configuration
 	//1 -> output, 0 -> input
-    DDRB = 0xFF; 
+    DDRB |= 0b00000010;		//Set PB1 (arduino digital pin 9) as output	
+	DDRD &= ~(1 << DDD2);     // Set PD2/INT0 (arduino digital pin 2) as input
+	
+	USART_Init();	//Start USART
+	
+	EICRA |= 0b00000011;    //The rising edge of INT0 generates an interrupt request (ISC00, ISC01)
+	EIMSK |= (1 << INT0);     //Turns on INT0
+	sei();          // turn on interrupts
+	
+	USART_StrTx("WELCOME\r\n");
 	
     while ( TRUE ) {
-		PORTB |= 0b00000010;  // Set PB1 (arduino digital pin 9)
-		_delay_ms(1000);
+		PORTB |= 0b00000010;  // Set PB1 (arduino digital pin 9) to 1
+		_delay_ms(100);
 		
-		PORTB &= 0b11111101; // Clear PB1 (arduino digital pin 9)
-		_delay_ms(1000);
+		PORTB &= 0b11111101; // Set PB1 (arduino digital pin 9) to 0
+		_delay_ms(100);
     }
 	
 	return 0;
