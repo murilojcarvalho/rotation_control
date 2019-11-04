@@ -2,14 +2,17 @@
 #include "main.h"
 
 //Global variables
-unsigned int rpm = 0;
+int rpm = 0;
+int rpm_set_point=0;
 unsigned char pulse_rpm_count=0;
 unsigned long int previous_blink_millis=0, current_blink_millis=0;
+unsigned long int previous_serial_millis=0, current_serial_millis=0;
 unsigned long int previous_rpm_millis=0, current_rpm_millis=0;
 char string_buffer[100] = {0};
 unsigned char led_builtin_status=0;
-unsigned int rpm_set_point=1000;
 unsigned char pwm=0;
+extern uint8_t frame_status;
+char usart_rx_buffer[100];
 
 //Functions prototypes
 void init(void);
@@ -22,6 +25,7 @@ int main(void){
     while ( TRUE ) {
 		current_blink_millis = millis();
 		if(current_blink_millis - previous_blink_millis >= blink_interval){
+			previous_blink_millis = current_blink_millis;
 			led_builtin_status = !led_builtin_status;
 			if(led_builtin_status){
 				Set_bit(PORTB, 5);
@@ -29,9 +33,23 @@ int main(void){
 			else{
 				Clr_bit(PORTB, 5);
 			}
-			previous_blink_millis = current_blink_millis;
 			linear_control();
-			sprintf(string_buffer, "%u RPM \r\n", rpm);
+		}
+		
+		current_serial_millis = millis();
+		if(current_serial_millis - previous_serial_millis >= serial_interval){
+			previous_serial_millis = current_serial_millis;
+			sprintf(string_buffer, "RPM: %u \r\n", rpm);
+			USART_StrTx(string_buffer);
+			sprintf(string_buffer, "PWM: %u \r\n", pwm);
+			USART_StrTx(string_buffer);
+		}
+		
+		if( frame_status ){
+			frame_status = 0;
+			read_usart_rx_buffer(usart_rx_buffer);
+			rpm_set_point = atoi(usart_rx_buffer);
+			sprintf(string_buffer, "SP = %u \r\n", rpm_set_point);
 			USART_StrTx(string_buffer);
 		}
     }
@@ -64,6 +82,7 @@ void init(void){
 	EICRA |= 0b00000011;    //The rising edge of INT0 generates an interrupt request (ISC00, ISC01)
 	EIMSK |= (1 << INT0);     //Turns on INT0
 	ticks_init();
+	USART_rxIE();	//enable usart receive interrupt
 	sei();          // turn on interrupts
 	
 	USART_StrTx("WELCOME\r\n");

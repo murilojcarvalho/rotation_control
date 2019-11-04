@@ -12,5 +12,6 @@ void USART_Transmit(unsigned char data);
 unsigned char USART_Receive( void );
 void USART_StrTx(const char*);
 void USART_rxIE(void);
+void read_usart_rx_buffer(char *temp_usart_rx_buffer);
 
 #endif
