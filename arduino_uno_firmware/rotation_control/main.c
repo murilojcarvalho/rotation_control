@@ -39,7 +39,9 @@ int main(void){
 		current_serial_millis = millis();
 		if(current_serial_millis - previous_serial_millis >= serial_interval){
 			previous_serial_millis = current_serial_millis;
-			sprintf(string_buffer, "RPM: %u \r\n", rpm);
+			sprintf(string_buffer, "Time: %lu \t\t", current_serial_millis);
+			USART_StrTx(string_buffer);
+			sprintf(string_buffer, "RPM: %u \t\t", rpm);
 			USART_StrTx(string_buffer);
 			sprintf(string_buffer, "PWM: %u \r\n", pwm);
 			USART_StrTx(string_buffer);
